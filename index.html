@@ -52,34 +52,6 @@
             --text-muted: #475569;
         }
 
-        /* Theme toggle button */
-
-        .theme-toggle {
-            position: fixed;
-            top: 1.2rem;
-            right: 1.2rem;
-            background: var(--card-bg);
-            border: 2px solid var(--primary-blue);
-            border-radius: 50%;
-            width: 48px;
-            height: 48px;
-            color: var(--primary-blue);
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(20px);
-            z-index: 2001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .theme-toggle:hover {
-            transform: translateY(-50%) scale(1.1);
-            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
-        }
-
-
         body {
             font-family: 'Inter', system-ui, sans-serif;
             line-height: 1.6;
@@ -234,6 +206,7 @@
             border-radius: 10px;
             background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple), var(--primary-pink)) border-box;
             -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: destination-out;
             mask-composite: exclude;
             animation: borderGlow 3s infinite alternate;
@@ -911,11 +884,6 @@
             .modal-content {
                 width: 95%;
             }
-
-            .theme-toggle {
-                top: 1rem;
-                right: 1rem;
-            }
         }
 
 
@@ -972,11 +940,7 @@
                 align-items: center;
                 justify-content: center;
                 z-index: 2002;
-            }
-
-            .theme-toggle {
-                top: 0.7rem;
-                right: 0.7rem;
+                display: flex;
             }
 
             .hero {
@@ -1041,13 +1005,6 @@
                 padding: 0.1rem 0.2rem;
             }
 
-            .theme-toggle {
-                top: 0.5rem;
-                right: 0.5rem;
-                width: 40px;
-                height: 40px;
-            }
-
             .hero h1 {
                 font-size: 2rem;
             }
@@ -1094,6 +1051,12 @@
             .modal-content {
                 width: 98vw;
                 padding: 0.2rem;
+            }
+
+            .typing-animation {
+                white-space: normal;
+                border-right: none;
+                animation: none;
             }
         }
 
@@ -1220,11 +1183,6 @@
             </ul>
         </div>
     </nav>
-
-    <!-- Theme Toggle Button -->
-    <button class="theme-toggle" id="themeToggle">
-        <i class="fas fa-sun"></i>
-    </button>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
@@ -1556,33 +1514,6 @@
             once: true,
             offset: 100
         });
-
-        // Theme toggle functionality
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
-        const icon = themeToggle.querySelector('i');
-
-        // Check for saved theme preference or default to 'dark'
-        const currentTheme = localStorage.getItem('theme') || 'dark';
-        body.setAttribute('data-theme', currentTheme);
-        updateThemeIcon(currentTheme);
-
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-            body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeIcon(newTheme);
-        });
-
-        function updateThemeIcon(theme) {
-            if (theme === 'dark') {
-                icon.className = 'fas fa-sun';
-            } else {
-                icon.className = 'fas fa-moon';
-            }
-        }
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
