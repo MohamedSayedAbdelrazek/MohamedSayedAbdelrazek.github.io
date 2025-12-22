@@ -659,34 +659,162 @@
             backdrop-filter: blur(20px);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 6rem 2rem;
+        }
+
+        .projects .section-title {
+            margin-bottom: 0.8rem;
+        }
+
+        .title-highlight {
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-style: italic;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin-bottom: 3.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 2rem;
         }
 
         .project-card {
-            background: var(--card-bg);
+            background: linear-gradient(145deg, rgba(20, 20, 35, 0.95) 0%, rgba(15, 15, 25, 0.98) 100%);
             border-radius: 20px;
-            padding: 2rem;
+            overflow: hidden;
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            transform-style: preserve-3d;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
         }
 
         .project-card:hover {
-            transform: translateY(-10px) rotateY(5deg);
-            border-color: var(--primary-pink);
-            box-shadow: 0 20px 40px rgba(241, 7, 163, 0.2);
+            transform: translateY(-8px);
+            border-color: rgba(123, 47, 247, 0.4);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(123, 47, 247, 0.15);
+        }
+
+        .project-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        .project-image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover .project-image-overlay {
+            opacity: 1;
+        }
+
+        .overlay-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-purple) 100%);
+            color: white;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .overlay-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .overlay-divider {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-category {
+            display: inline-block;
+            padding: 0.35rem 0.9rem;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.8rem;
+            width: fit-content;
+        }
+
+        .category-featured {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%);
+            color: var(--primary-blue);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .category-web {
+            background: linear-gradient(135deg, rgba(241, 7, 163, 0.2) 0%, rgba(241, 7, 163, 0.1) 100%);
+            color: var(--primary-pink);
+            border: 1px solid rgba(241, 7, 163, 0.3);
+        }
+
+        .category-desktop {
+            background: linear-gradient(135deg, rgba(123, 47, 247, 0.2) 0%, rgba(123, 47, 247, 0.1) 100%);
+            color: var(--primary-purple);
+            border: 1px solid rgba(123, 47, 247, 0.3);
         }
 
         .project-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: #ffffff;
+            transition: color 0.3s ease;
+        }
+
+        .project-card:hover .project-title {
             background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-pink) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -694,48 +822,62 @@
         }
 
         .project-card p {
-            color: #cbd5e1;
-            margin-bottom: 1rem;
+            color: #94a3b8;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+            flex: 1;
         }
 
         .project-tech {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin: 1rem 0;
+            margin-bottom: 1.2rem;
         }
 
         .tech-tag {
-            background: linear-gradient(135deg, rgba(123, 47, 247, 0.3) 0%, rgba(0, 212, 255, 0.3) 100%);
-            color: #ffffff;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            border: 1px solid rgba(123, 47, 247, 0.5);
+            background: rgba(40, 40, 60, 0.8);
+            color: #94a3b8;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.3s ease;
         }
 
         .tech-tag:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(123, 47, 247, 0.5);
+            background: rgba(123, 47, 247, 0.2);
+            color: var(--primary-purple);
+            border-color: rgba(123, 47, 247, 0.4);
+            transform: translateY(-2px);
         }
 
         .project-links {
             display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: auto;
+            padding-top: 0.5rem;
         }
 
-        .project-links a {
-            color: var(--primary-blue);
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #94a3b8;
             text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
             transition: all 0.3s ease;
         }
 
-        .project-links a:hover {
-            color: var(--primary-purple);
-            transform: translateX(5px);
+        .project-link:hover {
+            color: var(--primary-blue);
+            transform: translateX(3px);
+        }
+
+        .project-link i {
+            font-size: 1rem;
         }
 
         /* Contact Section */
@@ -977,8 +1119,17 @@
                 grid-template-columns: 1fr;
             }
 
+            .project-image-wrapper {
+                height: 180px;
+            }
+
             .section-title {
                 font-size: 2.5rem;
+            }
+
+            .section-subtitle {
+                font-size: 1rem;
+                padding: 0 1rem;
             }
 
             .hero::before {
@@ -1353,81 +1504,122 @@
     <!-- Projects Section -->
     <section id="projects" class="projects">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Featured Projects</h2>
+            <h2 class="section-title" data-aos="fade-up">Featured <span class="title-highlight">Projects</span></h2>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">A selection of projects that showcase my
+                skills and passion for development.</p>
             <div class="projects-grid">
+                <!-- Project 1: HireMe -->
                 <div class="project-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="project-title">HireMe – AI-Powered Job Board</div>
-                    <p>A full-featured job board platform connecting job seekers and companies. Includes two
-                        applications:
-                        Job Seeker App: Browse jobs, apply online, and get instant AI-powered resume feedback.
-                        Admin/Company Backoffice: Post jobs, manage applications, update status with automated email +
-                        in-app notifications, and monitor an analytics dashboard.</p>
-                    <div class="project-tech">
-                        <span class="tech-tag">Laravel 12</span>
-                        <span class="tech-tag">MySQL</span>
-                        <span class="tech-tag">Tailwind CSS</span>
-                        <span class="tech-tag">Docker</span>
-                        <span class="tech-tag">Queue & Notification System</span>
+                    <div class="project-image-wrapper">
+                        <img src="images/HireMeJobBoard.jpg" alt="HireMe Job Board Preview" class="project-image">
+                        <div class="project-image-overlay">
+                            <a href="#" class="overlay-btn live-demo"
+                                data-video="https://www.youtube.com/embed/ahVm4CHISrE"
+                                data-placeholder="images/HireMeJobBoard.jpg">
+                                <i class="fas fa-play"></i> Watch Demo
+                            </a>
+                            <span class="overlay-divider">Explore Jobs</span>
+                        </div>
                     </div>
-                    <div class="project-links">
-                        <a href="https://github.com/MohamedSayedAbdelrazek/job-board" target="_blank">
-                            <i class="fab fa-github"></i> View on GitHub
-                        </a>
-
-                        <a href="#" class="live-demo" data-video="https://www.youtube.com/embed/ahVm4CHISrE"
-                            data-placeholder="images/HireMeJobBoard.jpg">
-                            <i class="fab fa-youtube"></i> Live Demo
-                        </a>
+                    <div class="project-content">
+                        <span class="project-category category-featured">Featured Project</span>
+                        <div class="project-title">HireMe – AI-Powered Job Board</div>
+                        <p>A full-featured job board platform connecting job seekers and companies. Includes AI-powered
+                            resume feedback, real-time notifications, and an analytics dashboard.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Laravel 12</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">Tailwind CSS</span>
+                            <span class="tech-tag">Docker</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/MohamedSayedAbdelrazek/job-board" target="_blank"
+                                class="project-link">
+                                <i class="fab fa-github"></i> Source Code
+                            </a>
+                            <a href="#" class="project-link live-demo"
+                                data-video="https://www.youtube.com/embed/ahVm4CHISrE"
+                                data-placeholder="images/HireMeJobBoard.jpg">
+                                <i class="fas fa-play-circle"></i> Live Demo
+                            </a>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Project 2: Food Order Website -->
                 <div class="project-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="project-title">Food Order Website</div>
-                    <p>A dynamic web application designed to streamline restaurant operations. Customers can browse
-                        menus, place orders online, and track their status in real time, while administrators manage
-                        orders and fulfillment efficiently.the
-                        platform ensures secure data handling, smooth navigation, and an intuitive interface that
-                        delivers a seamless experience for customers and staff.
-                    </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">PHP</span>
-                        <span class="tech-tag">MySQL</span>
-                        <span class="tech-tag">JavaScript</span>
-                        <span class="tech-tag">HTML/CSS</span>
+                    <div class="project-image-wrapper">
+                        <img src="images/FoodOrderWebsite.jpg" alt="Food Order Website Preview" class="project-image">
+                        <div class="project-image-overlay">
+                            <a href="#" class="overlay-btn live-demo"
+                                data-video="https://www.youtube.com/embed/xyFHUGaCNg4"
+                                data-placeholder="images/FoodOrderWebsite.jpg">
+                                <i class="fas fa-play"></i> Watch Demo
+                            </a>
+                            <span class="overlay-divider">Explore Foods</span>
+                        </div>
                     </div>
-                    <div class="project-links">
-                        <a href="https://github.com/MohamedSayedAbdelrazek/Food-Order-Website" target="_blank">
-                            <i class="fab fa-github"></i> View on GitHub
-                        </a>
-
-                        <a href="#" class="live-demo" data-video="https://www.youtube.com/embed/xyFHUGaCNg4"
-                            data-placeholder="images/FoodOrderWebsite.jpg">
-                            <i class="fab fa-youtube"></i> Live Demo
-                        </a>
-
-
+                    <div class="project-content">
+                        <span class="project-category category-web">Web Application</span>
+                        <div class="project-title">Food Order Website</div>
+                        <p>A dynamic web application for restaurant operations. Customers can browse menus, place
+                            orders, and track status in real-time with secure data handling.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">PHP</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">HTML/CSS</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/MohamedSayedAbdelrazek/Food-Order-Website" target="_blank"
+                                class="project-link">
+                                <i class="fab fa-github"></i> Source Code
+                            </a>
+                            <a href="#" class="project-link live-demo"
+                                data-video="https://www.youtube.com/embed/xyFHUGaCNg4"
+                                data-placeholder="images/FoodOrderWebsite.jpg">
+                                <i class="fas fa-play-circle"></i> Live Demo
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="project-card" data-aos="fade-up" data-aos-delay="600">
-                    <div class="project-title">Library Management System</div>
-                    <p>A Java-based application designed to manage library operations
-                        efficiently. The system allows users to borrow books for specific durations, track due dates,
-                        and return books seamlessly. It also includes features for managing the library inventory,
-                        making it suitable for educational purposes or small-scale libraries.</p>
-                    <div class="project-tech">
-                        <span class="tech-tag">Java</span>
-                        <span class="tech-tag">OOP</span>
-                        <span class="tech-tag">Database Management</span>
-                        <span class="tech-tag">GUI</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="https://github.com/MohamedSayedAbdelrazek/Library-Managment-System" target="_blank">
-                            <i class="fab fa-github"></i> View on GitHub
-                        </a>
 
-                        <a href="#" class="live-demo" data-video="https://www.youtube.com/embed/HBQi7MaPbQU"
-                            data-placeholder="images/LibraryManagementSystem.jpg">
-                            <i class="fab fa-youtube"></i> Live Demo
-                        </a>
+                <!-- Project 3: Library Management System -->
+                <div class="project-card" data-aos="fade-up" data-aos-delay="600">
+                    <div class="project-image-wrapper">
+                        <img src="images/LibraryManagementSystem.jpg" alt="Library Management System Preview"
+                            class="project-image">
+                        <div class="project-image-overlay">
+                            <a href="#" class="overlay-btn live-demo"
+                                data-video="https://www.youtube.com/embed/HBQi7MaPbQU"
+                                data-placeholder="images/LibraryManagementSystem.jpg">
+                                <i class="fas fa-play"></i> Watch Demo
+                            </a>
+                            <span class="overlay-divider">Explore Books</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <span class="project-category category-desktop">Desktop Application</span>
+                        <div class="project-title">Library Management System</div>
+                        <p>A Java-based application for managing library operations. Features include book borrowing,
+                            due date tracking, returns, and inventory management.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Java</span>
+                            <span class="tech-tag">OOP</span>
+                            <span class="tech-tag">Database</span>
+                            <span class="tech-tag">GUI</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/MohamedSayedAbdelrazek/Library-Managment-System" target="_blank"
+                                class="project-link">
+                                <i class="fab fa-github"></i> Source Code
+                            </a>
+                            <a href="#" class="project-link live-demo"
+                                data-video="https://www.youtube.com/embed/HBQi7MaPbQU"
+                                data-placeholder="images/LibraryManagementSystem.jpg">
+                                <i class="fas fa-play-circle"></i> Live Demo
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
