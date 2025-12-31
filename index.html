@@ -257,6 +257,7 @@
 
             <div class="certifications-grid">
                 <article class="certification-card" data-aos="flip-left" data-aos-delay="200">
+                    <div class="cert-badge"></div>
                     <h3 class="certification-title">
                         <i class="fas fa-trophy" aria-hidden="true"></i>
                         ECPC Qualifications • 2025
@@ -265,13 +266,14 @@
                         Qualified for the Egyptian Collegiate Programming Contest (ECPC), a prestigious competitive
                         programming competition showcasing algorithmic problem-solving skills.
                     </p>
-                    <a href="https://drive.google.com/file/d/1chCIQu4_owd-sb5daCZuP9U_mdl6UPz6/view?usp=drive_link"
-                        target="_blank" rel="noopener noreferrer" class="cert-link" aria-label="View ECPC Certificate">
-                        <i class="fas fa-external-link-alt" aria-hidden="true"></i> View Certificate
-                    </a>
+                    <button class="cert-link view-certificate" data-cert-image="images/certificates/ecpc-2025.PNG"
+                        data-cert-title="ECPC Qualifications 2025" aria-label="View ECPC Certificate">
+                        <i class="fas fa-eye" aria-hidden="true"></i> View Certificate
+                    </button>
                 </article>
 
                 <article class="certification-card" data-aos="flip-left" data-aos-delay="400">
+                    <div class="cert-badge"></div>
                     <h3 class="certification-title">
                         <i class="fas fa-database" aria-hidden="true"></i>
                         Database Level 1 - SQL • 2025
@@ -280,13 +282,14 @@
                         Comprehensive database certification covering SQL fundamentals, query optimization, and database
                         design principles for efficient data management.
                     </p>
-                    <a href="https://drive.google.com/file/d/1PW4i63cpShqX-NXUiGlGJWVAysn64GH2/view?usp=drive_link"
-                        target="_blank" rel="noopener noreferrer" class="cert-link" aria-label="View SQL Certificate">
-                        <i class="fas fa-external-link-alt" aria-hidden="true"></i> View Certificate
-                    </a>
+                    <button class="cert-link view-certificate" data-cert-image="images/certificates/sql-database.jpg"
+                        data-cert-title="Database Level 1 - SQL Certificate" aria-label="View SQL Certificate">
+                        <i class="fas fa-eye" aria-hidden="true"></i> View Certificate
+                    </button>
                 </article>
 
                 <article class="certification-card" data-aos="flip-left" data-aos-delay="600">
+                    <div class="cert-badge"></div>
                     <h3 class="certification-title">
                         <i class="fab fa-laravel" aria-hidden="true"></i>
                         Laravel Framework (Udemy)
@@ -295,10 +298,10 @@
                         Mastered the Laravel PHP framework, including advanced concepts like Eloquent ORM, middleware,
                         authentication, and building RESTful APIs.
                     </p>
-                    <a href="https://drive.google.com/file/d/1ZwodEtWF3-7CQyMhupGaCFXduhmSmYcw/view" target="_blank"
-                        rel="noopener noreferrer" class="cert-link" aria-label="View Laravel Certificate">
-                        <i class="fas fa-external-link-alt" aria-hidden="true"></i> View Certificate
-                    </a>
+                    <button class="cert-link view-certificate" data-cert-image="images/certificates/laravel-udemy.jpg"
+                        data-cert-title="Laravel Framework Certificate" aria-label="View Laravel Certificate">
+                        <i class="fas fa-eye" aria-hidden="true"></i> View Certificate
+                    </button>
                 </article>
             </div>
         </div>
@@ -571,9 +574,9 @@
                     </p>
 
                     <div class="social-links" role="list" aria-label="Social media links">
-                        <a href="https://www.linkedin.com/in/mosayed-cs" target="_blank"
-                            rel="noopener noreferrer" class="social-link" role="listitem" aria-label="LinkedIn Profile"
-                            data-aos="zoom-in" data-aos-delay="100">
+                        <a href="https://www.linkedin.com/in/mosayed-cs" target="_blank" rel="noopener noreferrer"
+                            class="social-link" role="listitem" aria-label="LinkedIn Profile" data-aos="zoom-in"
+                            data-aos-delay="100">
                             <i class="fab fa-linkedin-in" aria-hidden="true"></i>
                         </a>
 
@@ -583,7 +586,7 @@
                             <i class="fab fa-github" aria-hidden="true"></i>
                         </a>
 
-                        <a href="https://codeforces.com/profile/" target="_blank" rel="noopener noreferrer"
+                        <a href="https://codeforces.com/profile/Mohamed_Sayed_1" target="_blank" rel="noopener noreferrer"
                             class="social-link" role="listitem" aria-label="Codeforces Profile" data-aos="zoom-in"
                             data-aos-delay="300">
                             <i class="fas fa-code" aria-hidden="true"></i>
@@ -612,7 +615,7 @@
             </p>
             <p class="footer-tagline">Building the future, one line of code at a time</p>
             <div class="footer-links">
-                <a href="https://linkedin.com/in/mohamed-sayed-abdulrazek" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.linkedin.com/in/mosayed-cs" target="_blank" rel="noopener noreferrer"
                     aria-label="LinkedIn">
                     <i class="fab fa-linkedin-in" aria-hidden="true"></i>
                 </a>
@@ -645,6 +648,32 @@
                     allowfullscreen>
                 </iframe>
                 <img src="images/HireMeJobBoard.jpg" class="video-placeholder" alt="Video Placeholder">
+            </div>
+        </div>
+    </div>
+
+    <!-- Certificate Modal -->
+    <div class="cert-modal" id="certModal" role="dialog" aria-modal="true" aria-labelledby="cert-modal-title">
+        <div class="cert-modal-overlay"></div>
+        <div class="cert-modal-content">
+            <button class="cert-modal-close" id="certModalClose" aria-label="Close certificate modal">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+            <h2 id="cert-modal-title" class="cert-modal-title">Certificate</h2>
+            <div class="cert-modal-image-wrapper">
+                <img src="" alt="Certificate" class="cert-modal-image" id="certModalImage">
+                <div class="cert-modal-loading">
+                    <div class="cert-loader"></div>
+                    <span>Loading certificate...</span>
+                </div>
+            </div>
+            <div class="cert-modal-actions">
+                <a href="" class="cert-action-btn" id="certDownloadBtn" download aria-label="Download certificate">
+                    <i class="fas fa-download" aria-hidden="true"></i> Download
+                </a>
+                <button class="cert-action-btn cert-zoom-btn" id="certZoomBtn" aria-label="Toggle zoom">
+                    <i class="fas fa-search-plus" aria-hidden="true"></i> Zoom
+                </button>
             </div>
         </div>
     </div>

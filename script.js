@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initTypingAnimation();
     initCounterAnimation();
     initVideoModal();
+    initCertificateModal(); // Certificate popup functionality
     initBackToTop();
     initAOS();
     initLazyLoading();
@@ -419,6 +420,311 @@ function initVideoModal() {
             closeModal();
         }
     });
+}
+
+/* ====================================
+   Certificate Modal - Advanced Zoom System
+   ==================================== */
+function initCertificateModal() {
+    const modal = document.getElementById('certModal');
+    if (!modal) return;
+
+    const modalImage = document.getElementById('certModalImage');
+    const modalTitle = document.getElementById('cert-modal-title');
+    const modalClose = document.getElementById('certModalClose');
+    const modalOverlay = modal.querySelector('.cert-modal-overlay');
+    const downloadBtn = document.getElementById('certDownloadBtn');
+    const zoomBtn = document.getElementById('certZoomBtn');
+    const loadingEl = modal.querySelector('.cert-modal-loading');
+    const imageWrapper = modal.querySelector('.cert-modal-image-wrapper');
+    const viewCertButtons = document.querySelectorAll('.view-certificate');
+
+    // Zoom state
+    const zoomLevels = [1, 1.5, 2, 3, 4];
+    let currentZoomIndex = 0;
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let scrollLeft = 0;
+    let scrollTop = 0;
+
+    // Create zoom indicator if not exists
+    let zoomIndicator = imageWrapper?.querySelector('.cert-zoom-indicator');
+    if (imageWrapper && !zoomIndicator) {
+        zoomIndicator = document.createElement('div');
+        zoomIndicator.className = 'cert-zoom-indicator';
+        zoomIndicator.innerHTML = '<i class="fas fa-search"></i> <span>1x</span>';
+        imageWrapper.appendChild(zoomIndicator);
+    }
+
+    // Update zoom level display
+    function updateZoomUI() {
+        const level = zoomLevels[currentZoomIndex];
+        const isZoomed = currentZoomIndex > 0;
+
+        // Update image transform
+        if (modalImage) {
+            modalImage.style.transform = `scale(${level})`;
+            modalImage.style.cursor = isZoomed ? 'grab' : 'zoom-in';
+        }
+
+        // Update wrapper
+        if (imageWrapper) {
+            imageWrapper.classList.toggle('zoomed', isZoomed);
+        }
+
+        // Update zoom indicator
+        if (zoomIndicator) {
+            const indicatorText = zoomIndicator.querySelector('span');
+            if (indicatorText) {
+                indicatorText.textContent = `${level}x`;
+            }
+        }
+
+        // Update zoom button
+        if (zoomBtn) {
+            if (currentZoomIndex === 0) {
+                zoomBtn.innerHTML = '<i class="fas fa-search-plus" aria-hidden="true"></i> Zoom In';
+            } else if (currentZoomIndex === zoomLevels.length - 1) {
+                zoomBtn.innerHTML = '<i class="fas fa-undo" aria-hidden="true"></i> Reset';
+            } else {
+                zoomBtn.innerHTML = '<i class="fas fa-search-plus" aria-hidden="true"></i> Zoom +';
+            }
+        }
+    }
+
+    // Cycle zoom levels
+    function cycleZoom() {
+        currentZoomIndex = (currentZoomIndex + 1) % zoomLevels.length;
+        updateZoomUI();
+
+        // Center the scroll when zooming in
+        if (imageWrapper && currentZoomIndex > 0) {
+            setTimeout(() => {
+                const scrollW = imageWrapper.scrollWidth - imageWrapper.clientWidth;
+                const scrollH = imageWrapper.scrollHeight - imageWrapper.clientHeight;
+                imageWrapper.scrollLeft = scrollW / 2;
+                imageWrapper.scrollTop = scrollH / 2;
+            }, 50);
+        }
+    }
+
+    // Reset zoom
+    function resetZoom() {
+        currentZoomIndex = 0;
+        updateZoomUI();
+        if (imageWrapper) {
+            imageWrapper.scrollLeft = 0;
+            imageWrapper.scrollTop = 0;
+        }
+    }
+
+    // Handle mouse wheel zoom
+    function handleWheelZoom(e) {
+        if (!modal.classList.contains('active')) return;
+
+        e.preventDefault();
+
+        if (e.deltaY < 0) {
+            // Scroll up - zoom in
+            if (currentZoomIndex < zoomLevels.length - 1) {
+                currentZoomIndex++;
+                updateZoomUI();
+            }
+        } else {
+            // Scroll down - zoom out
+            if (currentZoomIndex > 0) {
+                currentZoomIndex--;
+                updateZoomUI();
+            }
+        }
+    }
+
+    // Pan/Drag functionality
+    function startDrag(e) {
+        if (currentZoomIndex === 0) return;
+
+        isDragging = true;
+        imageWrapper?.classList.add('dragging');
+
+        if (e.type === 'touchstart') {
+            startX = e.touches[0].pageX - imageWrapper.offsetLeft;
+            startY = e.touches[0].pageY - imageWrapper.offsetTop;
+        } else {
+            startX = e.pageX - imageWrapper.offsetLeft;
+            startY = e.pageY - imageWrapper.offsetTop;
+        }
+
+        scrollLeft = imageWrapper?.scrollLeft || 0;
+        scrollTop = imageWrapper?.scrollTop || 0;
+    }
+
+    function doDrag(e) {
+        if (!isDragging || !imageWrapper) return;
+
+        e.preventDefault();
+
+        let x, y;
+        if (e.type === 'touchmove') {
+            x = e.touches[0].pageX - imageWrapper.offsetLeft;
+            y = e.touches[0].pageY - imageWrapper.offsetTop;
+        } else {
+            x = e.pageX - imageWrapper.offsetLeft;
+            y = e.pageY - imageWrapper.offsetTop;
+        }
+
+        const walkX = (x - startX) * 1.5;
+        const walkY = (y - startY) * 1.5;
+
+        imageWrapper.scrollLeft = scrollLeft - walkX;
+        imageWrapper.scrollTop = scrollTop - walkY;
+    }
+
+    function endDrag() {
+        isDragging = false;
+        imageWrapper?.classList.remove('dragging');
+    }
+
+    // Open modal when clicking view certificate buttons
+    viewCertButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            const certImage = button.getAttribute('data-cert-image');
+            const certTitle = button.getAttribute('data-cert-title');
+
+            if (certImage) {
+                // Reset zoom state
+                resetZoom();
+
+                // Show loading state
+                if (loadingEl) loadingEl.classList.remove('hidden');
+                if (modalImage) modalImage.style.opacity = '0';
+
+                // Set image source
+                modalImage.src = certImage;
+
+                // Set download link
+                if (downloadBtn) {
+                    downloadBtn.href = certImage;
+                    const ext = certImage.split('.').pop().toLowerCase();
+                    downloadBtn.download = certTitle ? certTitle.replace(/\s+/g, '_') + '.' + ext : 'certificate';
+                }
+
+                // Set title
+                if (modalTitle) {
+                    modalTitle.textContent = certTitle || 'Certificate';
+                }
+
+                // Handle image load
+                modalImage.onload = () => {
+                    if (loadingEl) loadingEl.classList.add('hidden');
+                    if (modalImage) modalImage.style.opacity = '1';
+                };
+
+                // Handle image error
+                modalImage.onerror = () => {
+                    if (loadingEl) loadingEl.classList.add('hidden');
+                    if (modalImage) {
+                        modalImage.style.opacity = '1';
+                        modalImage.alt = 'Failed to load certificate image';
+                    }
+                    console.warn('Failed to load certificate image:', certImage);
+                };
+
+                // Open modal
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    });
+
+    // Close modal function
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+
+        // Reset zoom
+        resetZoom();
+
+        // Clear image after animation
+        setTimeout(() => {
+            if (modalImage) modalImage.src = '';
+        }, 400);
+    }
+
+    // Close button click
+    if (modalClose) {
+        modalClose.addEventListener('click', closeModal);
+    }
+
+    // Overlay click to close
+    if (modalOverlay) {
+        modalOverlay.addEventListener('click', closeModal);
+    }
+
+    // Zoom button click - cycle through zoom levels
+    if (zoomBtn) {
+        zoomBtn.addEventListener('click', cycleZoom);
+    }
+
+    // Image click to zoom
+    if (modalImage) {
+        modalImage.addEventListener('click', (e) => {
+            if (!isDragging) {
+                cycleZoom();
+            }
+        });
+    }
+
+    // Mouse wheel zoom
+    if (imageWrapper) {
+        imageWrapper.addEventListener('wheel', handleWheelZoom, { passive: false });
+
+        // Pan/drag events
+        imageWrapper.addEventListener('mousedown', startDrag);
+        imageWrapper.addEventListener('mousemove', doDrag);
+        imageWrapper.addEventListener('mouseup', endDrag);
+        imageWrapper.addEventListener('mouseleave', endDrag);
+
+        // Touch events for mobile
+        imageWrapper.addEventListener('touchstart', startDrag, { passive: true });
+        imageWrapper.addEventListener('touchmove', doDrag, { passive: false });
+        imageWrapper.addEventListener('touchend', endDrag);
+    }
+
+    // Keyboard controls
+    document.addEventListener('keydown', (e) => {
+        if (!modal.classList.contains('active')) return;
+
+        switch (e.key) {
+            case 'Escape':
+                closeModal();
+                break;
+            case '+':
+            case '=':
+                if (currentZoomIndex < zoomLevels.length - 1) {
+                    currentZoomIndex++;
+                    updateZoomUI();
+                }
+                break;
+            case '-':
+            case '_':
+                if (currentZoomIndex > 0) {
+                    currentZoomIndex--;
+                    updateZoomUI();
+                }
+                break;
+            case '0':
+                resetZoom();
+                break;
+        }
+    });
+
+    // Double-click to reset zoom
+    if (modalImage) {
+        modalImage.addEventListener('dblclick', resetZoom);
+    }
 }
 
 /* ====================================
