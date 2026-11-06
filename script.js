@@ -1,5 +1,5 @@
 /* ====================================
-   Mohamed Sayed - Portfolio JavaScript
+   Mohamed Sayed Abdulrazek - Portfolio JavaScript
    Interactive Features & Animations
    Premium Experience v2.0
    ==================================== */
@@ -39,20 +39,13 @@ function initLoadingScreen() {
         yearElement.textContent = new Date().getFullYear();
     }
 
-    // Hide loading screen after content loads
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            loadingScreen.classList.add('hidden');
-            // Enable scroll after loading
-            document.body.style.overflow = '';
-        }, 500);
-    });
-
-    // Fallback: hide after 3 seconds max
-    setTimeout(() => {
+    // Hide the loader as soon as the page is ready (this runs on DOMContentLoaded),
+    // instead of waiting for every image and font to finish downloading.
+    const hide = () => {
         loadingScreen.classList.add('hidden');
         document.body.style.overflow = '';
-    }, 3000);
+    };
+    requestAnimationFrame(() => setTimeout(hide, 150));
 }
 
 /* ====================================
@@ -258,11 +251,11 @@ function initTypingAnimation() {
     if (!typingElement) return;
 
     const phrases = [
+        '.NET Backend Developer',
+        'C# & EF Core Developer',
         'Software Engineer',
-        'Back-end Developer',
-        'Laravel Expert',
         'Problem Solver',
-        'Competitive Programmer'
+        'Ex-Laravel Developer'
     ];
 
     let phraseIndex = 0;
